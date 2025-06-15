@@ -17,7 +17,7 @@ const EmailCapture = ({ answers, onBack }: EmailCaptureProps) => {
   const { toast } = useToast();
 
   // Replace this URL with your deployed Google Apps Script Web App URL
-  const scriptUrl = '/api/proxyGoogleScript';
+  const scriptUrl = '/.netlify/functions/proxyGoogleScript';
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
