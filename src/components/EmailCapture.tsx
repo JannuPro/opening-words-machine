@@ -17,7 +17,7 @@ const EmailCapture = ({ answers, onBack }: EmailCaptureProps) => {
   const { toast } = useToast();
 
   // Replace this URL with your deployed Google Apps Script Web App URL
-  const scriptUrl = 'https://script.google.com/macros/s/AKfycbye2oB_jq8_FSoJELHwI6obdA-p1wGFLZntG5otOOayxZTaEFqCjKCDZ-d6eDdPTGHHlA/exec';
+  const scriptUrl = 'https://script.google.com/macros/s/AKfycbxafhAdk4a11vsTmZI4duf82yuBsTi25ZrJSv_0KyqNRAMPqJUekNur5arcWjkI8_Clgw/exec';
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
