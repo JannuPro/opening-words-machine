@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -17,25 +16,46 @@ const EmailCapture = ({ answers, onBack }: EmailCaptureProps) => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const { toast } = useToast();
 
+  // Replace this URL with your deployed Google Apps Script Web App URL
+  const scriptUrl = '/.netlify/functions/proxyGoogleScript';
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email) return;
 
     setIsLoading(true);
-    
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    
-    console.log('Email submitted:', email);
-    console.log('User answers:', answers);
-    
-    setIsSubmitted(true);
-    setIsLoading(false);
-    
-    toast({
-      title: "Welcome aboard! 🎉",
-      description: "Check your email for exclusive entrepreneur strategies.",
-    });
+
+    try {
+      const response = await fetch(scriptUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, answers }),
+      });
+
+      const data = await response.json();
+
+      if (data.status === 'success') {
+        setIsSubmitted(true);
+        toast({
+          title: "Welcome aboard! 🎉",
+          description: "Check your email for exclusive entrepreneur strategies.",
+        });
+      } else {
+        toast({
+          title: "Oops, something went wrong!",
+          description: data.message || "Please try again later.",
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
+      toast({
+        title: "Network error",
+        description: "Failed to send your email. Please check your connection and try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   if (isSubmitted) {
